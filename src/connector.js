@@ -70,6 +70,10 @@ new mqtt.Server(function(client) {
 		client.token = packet.password.toString()
 		console.log('CONNECT(%s)', client.id)
 
+		if ( ! client.id.match(/^[a-zA-Z0-9]{16}$/)) {
+			client.connack({ returnCode: 2 })
+			return
+		}
 		if ( ! client.token.match(/^[a-zA-Z0-9]{32}$/)) {
 			client.connack({ returnCode: 4 })
 			return
