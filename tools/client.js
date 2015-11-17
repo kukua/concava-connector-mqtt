@@ -6,7 +6,6 @@ var client = mqtt.connect('mqtt://localhost:3002', {
 })
 
 client.on('connect', () => {
-	setInterval(() => {
-		client.publish('data', new Buffer(process.argv[3], 'hex'))
-	}, 3000)
+	client.publish('data', new Buffer(process.argv[3], 'hex'))
+	setTimeout(() => client.end(), 3000)
 })
