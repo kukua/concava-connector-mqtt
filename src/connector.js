@@ -8,7 +8,7 @@ var port = 3002
 var concavaUrl = 'http://localhost:3000/v1/sensorData'
 var keyrock = {
 	url: 'http://concava:5000/v3/',
-	adminToken: 'b0cf392a9562445d8cb222038010716a',
+	adminToken: '3889630c056d4d3fa605a8e28f4ae5f8',
 }
 
 // Authentication method
@@ -69,8 +69,20 @@ new mqtt.Server(function(client) {
 		client.id = packet.clientId
 		client.token = packet.password.toString()
 		console.log('CONNECT(%s)', client.id)
-		client.subscriptions = []
-		client.connack({ returnCode: 0 })
+
+		if ( ! client.token.match(/^[a-zA-Z0-9]{32}$/)) {
+			client.connack({ returnCode: 4 })
+			return
+		}
+
+		getUserByToken(client.token, (err) => {
+			if (err) {
+				client.connack({ returnCode: 5 })
+				return
+			}
+
+			client.connack({ returnCode: 0 })
+		})
 	})
 
 	client.on('subscribe', (packet) => {
