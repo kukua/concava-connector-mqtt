@@ -6,39 +6,6 @@ import request from 'request'
 var debug = true
 var port = 3002
 var concavaUrl = 'http://localhost:3000/v1/sensorData'
-var keyrock = {
-	url: 'http://concava:5000/v3/',
-	adminToken: '3889630c056d4d3fa605a8e28f4ae5f8',
-}
-
-// Authentication method
-function getUserByToken (token, cb) {
-	request(keyrock.url + 'auth/tokens', {
-		headers: {
-			'Content-Type': 'application/json',
-			'X-Auth-Token': keyrock.adminToken,
-			'X-Subject-Token': token,
-		},
-	}, function (err, httpResponse, body) {
-		if (err) return cb(err)
-		if (httpResponse.statusCode !== 200) return cb('Unauthorized token.')
-
-		var data = JSON.parse(body)
-
-		if (data.error) {
-			if (data.error.code === 401) return cb('Unauthorized token.')
-			return cb(data.error.message)
-		}
-
-		var user = data.token.user
-
-		cb(null, {
-			id: user.id,
-			name: user.name,
-			token: token,
-		})
-	})
-}
 
 // Method for sending data to ConCaVa
 function send (token, deviceId, payload, cb) {
@@ -79,14 +46,7 @@ new mqtt.Server(function(client) {
 			return
 		}
 
-		getUserByToken(client.token, (err) => {
-			if (err) {
-				client.connack({ returnCode: 5 })
-				return
-			}
-
-			client.connack({ returnCode: 0 })
-		})
+		client.connack({ returnCode: 0 })
 	})
 
 	client.on('subscribe', (packet) => {
