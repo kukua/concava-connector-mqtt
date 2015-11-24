@@ -1,19 +1,28 @@
 # MQTT Connector
 
-> MQTT Connector for converting sensor data to binary payload and forwarding it to ConCaVa.
+> MQTT Connector for converting sensor data to a binary payload and forwarding it to ConCaVa.
 
 ## How to use
 
-Setup ConCaVa first, see the [ConCaVa README](https://github.com/Kukua/concava).
+```bash
+docker run -d -p 3002 -v /path/to/config.js:/data/config.js kukuadev/concava-mqtt-connector
+```
+
+Make sure [ConCaVa](https://github.com/kukua/concava) is setup aswell.
+
+## Example
+
+```js
+npm run client '<token>' '<device ID>' '<hex>'
+```
+
+## Contribute
+
+Your help and feedback is highly welcome!
 
 ```bash
-docker-compose up -d
-
-# A local instance can be started with:
+git clone https://github.com/kukua/concava-mqtt-connector
+cd concava-mqtt-connector
 npm install
 npm start
-
-./tools/appendSensorMetadata.sh
-npm run client <token> <payload>
-# Example payload: 31302e35000003FC (temp: 10.5, pressure: 1020)
 ```

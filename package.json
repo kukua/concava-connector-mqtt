@@ -1,5 +1,5 @@
 {
-  "name": "mqtt-connector",
+  "name": "concava-mqtt-connector",
   "version": "0.1.0",
   "description": "MQTT Connector for ConCaVa.",
   "private": true,
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kukua/mqtt-connector.git"
+    "url": "git+https://github.com/kukua/concava-mqtt-connector.git"
   },
   "author": "Maurits van Mastrigt <maurits@nerdieworks.nl>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kukua/mqtt-connector/issues"
+    "url": "https://github.com/kukua/concava-mqtt-connector/issues"
   },
-  "homepage": "https://github.com/kukua/mqtt-connector#readme",
+  "homepage": "https://github.com/kukua/concava-mqtt-connector#readme",
   "dependencies": {
     "babel-cli": "^6.1.18",
     "babel-preset-es2015": "^6.1.18",

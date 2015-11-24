@@ -1,0 +1,5 @@
+export default {
+	debug: true,
+	port: 3002,
+	concavaUrl: 'http://example.com:3000/v1/sensorData',
+}

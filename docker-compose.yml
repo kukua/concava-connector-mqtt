@@ -1,8 +1,0 @@
-connector:
-    image: node:4.2.1
-    working_dir: /src
-    ports:
-        - "3002:3002"
-    volumes:
-        - ./:/src
-    command: /src/start-connector.sh

@@ -3,14 +3,12 @@ import mqtt from 'mqtt'
 import request from 'request'
 
 // Configuration
-var debug = true
-var port = 3002
-var concavaUrl = 'http://localhost:3000/v1/sensorData'
+import config from '../config.js'
 
 // Method for sending data to ConCaVa
 function send (token, deviceId, payload, cb) {
 	request.post({
-		url: concavaUrl,
+		url: config.concavaUrl,
 		body: Buffer.concat([new Buffer(deviceId, 'hex'), payload]),
 		headers: {
 			'Content-Type': 'application/octet-stream',
@@ -28,7 +26,7 @@ function send (token, deviceId, payload, cb) {
 }
 
 // Source: https://github.com/mqttjs/MQTT.js/blob/master/examples/server/orig.js
-new mqtt.Server(function(client) {
+new mqtt.Server(function (client) {
 	if ( ! this.clients) this.clients = {}
 
 	client.on('connect', (packet) => {
@@ -85,6 +83,6 @@ new mqtt.Server(function(client) {
 		client.stream.end()
 		console.error(err)
 	})
-}).listen(port)
+}).listen(config.port)
 
-console.log('Listening on port', port)
+console.log('Listening on port', config.port)
