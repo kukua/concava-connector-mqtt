@@ -9,8 +9,9 @@ docker run -d -p 3002 -v /path/to/config.js:/data/config.js kukuadev/concava-mqt
 ```
 
 Make sure [ConCaVa](https://github.com/kukua/concava) is setup aswell.
+See [`config.js.sample`](https://github.com/kukua/concava-mqtt-connector/blob/master/config.js.sample) for the default configuration.
 
-## Example
+## Test
 
 ```js
 npm run client '<token>' '<device ID>' '<hex>'
@@ -18,7 +19,7 @@ npm run client '<token>' '<device ID>' '<hex>'
 
 ## Contribute
 
-Your help and feedback is highly welcome!
+Your help and feedback are highly welcome!
 
 ```bash
 git clone https://github.com/kukua/concava-mqtt-connector
