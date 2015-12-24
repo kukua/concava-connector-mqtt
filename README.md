@@ -5,16 +5,16 @@
 ## How to use
 
 ```bash
-docker run -d -p 3002 -v /path/to/config.js:/data/config.js kukuadev/concava-mqtt-connector
+docker run -d -p 3000:3000 -v /path/to/config.js:/data/config.js kukuadev/concava-mqtt-connector
 ```
 
-Make sure [ConCaVa](https://github.com/kukua/concava) is setup aswell.
+Make sure [ConCaVa](https://github.com/kukua/concava) is setup as well.
 See [`config.js.sample`](https://github.com/kukua/concava-mqtt-connector/blob/master/config.js.sample) for the default configuration.
 
 ## Test
 
 ```js
-npm run client '<token>' '<device ID>' '<hex>'
+npm run client '<container IP>:3000' '<token>' '<device ID>' '<hex>'
 ```
 
 ## Contribute
