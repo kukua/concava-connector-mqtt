@@ -1,14 +1,15 @@
-import util from 'util'
 import mqtt from 'mqtt'
 import request from 'request'
 
 // Configuration
-import config from '../config.js'
+//const debug = (process.env['DEBUG'] === 'true' || process.env['DEBUG'] === '1')
+const url   = (process.env['CONCAVA_URL'] || 'unknown.host')
+const port  = (parseInt(process.env['PORT']) || 3000)
 
 // Method for sending data to ConCaVa
 function send (token, deviceId, payload, cb) {
 	request.post({
-		url: config.concavaUrl,
+		url,
 		body: Buffer.concat([new Buffer(deviceId, 'hex'), payload]),
 		headers: {
 			'Content-Type': 'application/octet-stream',
@@ -65,17 +66,17 @@ new mqtt.Server(function (client) {
 		})
 	})
 
-	client.on('pingreq', (packet) => {
+	client.on('pingreq', () => {
 		console.log('PINGREQ(%s)', client.id)
 		client.pingresp()
 	})
 
-	client.on('disconnect', (packet) => {
+	client.on('disconnect', () => {
 		console.log('DISCONNECT(%s)', client.id)
 		client.stream.end()
 	})
 
-	client.on('close', (packet) => {
+	client.on('close', () => {
 		delete this.clients[client.id]
 	})
 
@@ -83,6 +84,6 @@ new mqtt.Server(function (client) {
 		client.stream.end()
 		console.error(err)
 	})
-}).listen(config.port)
+}).listen(port)
 
-console.log('Listening on port', config.port)
+console.log('Listening on port', port)
