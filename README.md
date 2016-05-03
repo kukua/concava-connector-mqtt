@@ -1,6 +1,6 @@
 # MQTT Connector
 
-> MQTT connector for converting sensor data to a binary payload and forwarding it to ConCaVa.
+> MQTT connector for converting sensor data into a binary payload and forwarding it to ConCaVa.
 
 ## Installation
 
@@ -49,12 +49,14 @@ Tested with Docker v1.9.
 npm run client '<container IP or localhost>:3000' '<auth token>' '<device ID>' '<payload hex>'
 ```
 
+__Note:__ the server only listens to the `/data` topic.
+
 ## Contribute
 
 Your help and feedback are highly appreciated!
 
 ## License
 
-This software is licensed under the [MIT license](https://github.com/kukua/concava-connector-spul/blob/master/LICENSE).
+This software is licensed under the [MIT license](https://github.com/kukua/concava-connector-mqtt/blob/master/LICENSE).
 
 © 2016 Kukua BV

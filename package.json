@@ -17,6 +17,11 @@
     "url": "git+https://github.com/kukua/concava-connector-mqtt.git"
   },
   "author": "Maurits van Mastrigt <maurits@nerdieworks.nl>",
+  "keywords": [
+    "concava",
+    "connector",
+	"mqtt"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kukua/concava-connector-mqtt/issues"
