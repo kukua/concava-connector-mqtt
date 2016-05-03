@@ -1,6 +1,6 @@
 {
   "name": "concava-connector-mqtt",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "MQTT connector for ConCaVa.",
   "private": true,
   "main": "lib/connector.js",
