@@ -36,6 +36,7 @@ chmod 600 .env
 
 touch $PWD/mqtt.log
 docker run -d -p 3333:3333 -p 5555:5555 \
+	-v $PWD/mqtt.log:/mqtt.log
 	--env-file .env --name mqtt_connector \
 	kukuadev/concava-connector-mqtt
 ```

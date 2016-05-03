@@ -1,10 +1,21 @@
+import bunyan from 'bunyan'
 import mqtt from 'mqtt'
 import request from 'request'
 
+// Logger
+const debug = (process.env['DEBUG'] === 'true' || process.env['DEBUG'] === '1')
+const logFile = (process.env['LOG_FILE'] || '/mqtt.log')
+const log = bunyan.createLogger({
+	name: (process.env['LOG_NAME'] || 'concava-connector-mqtt'),
+	streams: [
+		{ level: 'warn', stream: process.stdout },
+		{ level: (debug ? 'debug' : 'info'), path: logFile }
+	]
+})
+
 // Configuration
-//const debug = (process.env['DEBUG'] === 'true' || process.env['DEBUG'] === '1')
-const url   = (process.env['CONCAVA_URL'] || 'unknown.host')
-const port  = (parseInt(process.env['PORT']) || 3000)
+const url = (process.env['CONCAVA_URL'] || 'unknown.host')
+const port = (parseInt(process.env['PORT']) || 3000)
 
 // Method for sending data to ConCaVa
 function send (token, deviceId, payload, cb) {
@@ -34,13 +45,18 @@ new mqtt.Server(function (client) {
 		this.clients[packet.clientId] = client
 		client.id = packet.clientId
 		client.token = packet.password.toString()
-		console.log('CONNECT(%s)', client.id)
+
+		log.debug({ type: 'connect', deviceId: client.id })
 
 		if ( ! client.id.match(/^[a-zA-Z0-9]{16}$/)) {
+			log.warn({ type: 'invalid-device-id', deviceId: client.id })
+
 			client.connack({ returnCode: 2 })
 			return
 		}
 		if ( ! client.token.match(/^[a-zA-Z0-9]{32}$/)) {
+			log.warn({ type: 'invalid-auth-token', deviceId: client.id })
+
 			client.connack({ returnCode: 4 })
 			return
 		}
@@ -49,30 +65,44 @@ new mqtt.Server(function (client) {
 	})
 
 	client.on('subscribe', (packet) => {
-		console.log('SUBSCRIBE(%s): Attempt to subscribe on %s', client.id, packet.topic)
+		log.debug({
+			type: 'subscribe', deviceId: client.id,
+			topic: packet.topic
+		})
+
 		// TODO(mauvm): Send back error
 		client.suback({ messageId: packet.messageId, granted: [] })
 	})
 
 	client.on('publish', (packet) => {
-		console.log('PUBLISH(%s): %s %j', client.id, packet.topic, packet.payload)
+		var { topic, payload } = packet
+
+		log.info({
+			type: 'publish', deviceId: client.id,
+			topic, payload
+		})
 
 		// TODO(mauvm): Send back error
-		if (packet.topic !== 'data') return
+		if (topic !== 'data') return
 
-		send(client.token, client.id, packet.payload, (err) => {
+		send(client.token, client.id, payload, (err) => {
 			// TODO(mauvm): Send back error
-			console.log('RESULT(%s): %s', client.id, err)
+			log.debug({
+				type: 'result', deviceId: client.id,
+				err
+			})
 		})
 	})
 
 	client.on('pingreq', () => {
-		console.log('PINGREQ(%s)', client.id)
+		log.debug({ type: 'pingreq', deviceId: client.id })
+
 		client.pingresp()
 	})
 
 	client.on('disconnect', () => {
-		console.log('DISCONNECT(%s)', client.id)
+		log.debug({ type: 'disconnect', deviceId: client.id })
+
 		client.stream.end()
 	})
 
@@ -81,9 +111,13 @@ new mqtt.Server(function (client) {
 	})
 
 	client.on('error', (err) => {
+		log.error({
+			type: 'error', deviceId: client.id,
+			err
+		})
+
 		client.stream.end()
-		console.error(err)
 	})
 }).listen(port)
 
-console.log('Listening on port', port)
+log.info('Listening on port ' + port)

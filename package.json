@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/kukua/concava-connector-mqtt#readme",
   "dependencies": {
+    "bunyan": "^1.8.0",
     "mqtt": "^1.5.0",
     "request": "^2.65.0"
   },
