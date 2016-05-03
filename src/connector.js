@@ -13,6 +13,11 @@ const log = bunyan.createLogger({
 	]
 })
 
+// Exception handling
+process.on('uncaughtException', (err) => {
+	log.error({ type: 'uncaught-exception', stack: err.stack }, '' + err)
+})
+
 // Configuration
 const url = (process.env['CONCAVA_URL'] || 'unknown.host')
 const port = (parseInt(process.env['PORT']) || 3000)
