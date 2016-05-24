@@ -50,8 +50,6 @@ Tested with Docker v1.9.
 npm run client '<container IP or localhost>:3000' '<auth token>' '<device ID>' '<payload hex>'
 ```
 
-__Note:__ the server only listens to the `/data` topic.
-
 ## Contribute
 
 Your help and feedback are highly appreciated!
