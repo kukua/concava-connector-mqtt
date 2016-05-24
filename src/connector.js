@@ -48,8 +48,9 @@ new mqtt.Server(function (client) {
 
 	client.on('connect', (packet) => {
 		this.clients[packet.clientId] = client
-		client.id = packet.clientId
-		client.token = packet.password.toString()
+
+		client.id    = (packet.clientId || '').toString()
+		client.token = (packet.password || '').toString()
 
 		log.debug({ type: 'connect', deviceId: client.id })
 
