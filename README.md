@@ -19,6 +19,7 @@ chmod 600 .env
 # > Edit .env
 
 npm install
+npm run compile
 source .env
 npm start
 ```

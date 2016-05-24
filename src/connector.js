@@ -87,9 +87,6 @@ new mqtt.Server(function (client) {
 			topic, payload
 		})
 
-		// TODO(mauvm): Send back error
-		if (topic !== 'data') return
-
 		send(client.token, client.id, payload, (err) => {
 			// TODO(mauvm): Send back error
 			log.debug({
