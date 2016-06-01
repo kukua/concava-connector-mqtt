@@ -35,9 +35,8 @@ curl https://raw.githubusercontent.com/kukua/concava-connector-mqtt/master/.env.
 chmod 600 .env
 # > Edit .env
 
-touch $PWD/mqtt.log
 docker run -d -p 3333:3333 -p 5555:5555 \
-	-v $PWD/mqtt.log:/mqtt.log
+	-v ./mqtt.log:/tmp/output.log
 	--env-file .env --name mqtt_connector \
 	kukuadev/concava-connector-mqtt
 ```
