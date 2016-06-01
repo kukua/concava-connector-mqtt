@@ -16,7 +16,7 @@
     "type": "git",
     "url": "git+https://github.com/kukua/concava-connector-mqtt.git"
   },
-  "author": "Maurits van Mastrigt <maurits@nerdieworks.nl>",
+  "author": "Kukua Team <dev@kukua.cc>",
   "keywords": [
     "concava",
     "connector",
